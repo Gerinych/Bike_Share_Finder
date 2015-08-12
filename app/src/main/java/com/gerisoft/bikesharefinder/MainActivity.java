@@ -248,4 +248,30 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
             else updateList();
         }
     }
+
+    // Location handling for pause, resume and stop events
+    @Override
+    protected void onPause() {
+        super.onPause();
+        lm.removeUpdates(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        lm.removeUpdates(this);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        provider = lm.getBestProvider(new Criteria(), true);
+        lm.requestLocationUpdates(provider, 400 , 1, this);
+        Location tmp = lm.getLastKnownLocation(provider);
+        if (tmp != null) {
+            location = new LatLng(tmp.getLatitude(), tmp.getLongitude());
+            Log.i("Location stuff", String.format("Provider set to %s, last known location = %f %f",
+                    provider, location.latitude, location.longitude));
+        }
+    }
 }

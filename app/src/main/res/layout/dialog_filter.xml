@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Set radius"
+        android:id="@+id/txtSetRadius"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textStyle="bold" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sbDist"
+        android:layout_below="@+id/txtSetRadius"
+        android:layout_alignLeft="@+id/txtSetRadius"
+        android:layout_alignStart="@+id/txtSetRadius"
+        android:layout_toLeftOf="@+id/txtKm"
+        android:layout_toStartOf="@+id/txtKm"
+        android:max="49" />
+
+    <TextView
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="5 km"
+        android:id="@+id/txtKm"
+        android:layout_below="@+id/txtSetRadius"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textAlignment="gravity"
+        android:gravity="right" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Sort by"
+        android:id="@+id/txtSortBy"
+        android:paddingTop="20dp"
+        android:layout_below="@+id/sbDist"
+        android:layout_alignLeft="@+id/txtSetRadius"
+        android:layout_alignStart="@+id/txtSetRadius"
+        android:textStyle="bold" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Distance"
+        android:id="@+id/rdDist"
+        android:layout_below="@+id/txtSortBy"
+        android:layout_alignLeft="@+id/txtSortBy"
+        android:layout_alignStart="@+id/txtSortBy" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="# of available bikes"
+        android:id="@+id/rdBike"
+        android:layout_below="@+id/txtSortBy"
+        android:layout_toRightOf="@+id/rdDist"
+        android:layout_toEndOf="@+id/rdDist" />
+
+</RelativeLayout>

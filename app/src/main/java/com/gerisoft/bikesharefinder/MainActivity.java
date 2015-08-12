@@ -78,9 +78,11 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
         provider = lm.getBestProvider(new Criteria(), true);
         lm.requestLocationUpdates(provider, 400 , 1, this);
         Location tmp = lm.getLastKnownLocation(provider);
-        location = new LatLng(tmp.getLatitude(), tmp.getLongitude());
-        Log.i("Location stuff", String.format("Provider set to %s, last known location = %f %f",
-                provider, location.latitude, location.longitude));
+        if (tmp != null) {
+            location = new LatLng(tmp.getLatitude(), tmp.getLongitude());
+            Log.i("Location stuff", String.format("Provider set to %s, last known location = %f %f",
+                    provider, location.latitude, location.longitude));
+        }
 
         // Getting list of stations
         new GetJson().execute();
@@ -105,7 +107,9 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
         // create a new list based on radius
         ArrayList<Station> dispStations = new ArrayList<>();
         for (Station s : stations) {
-            if (s.getDistance(location) <= filter_radius || filter_radius >= 10.1)
+            if (location == null)
+                dispStations.add(s);
+            else if (s.getDistance(location) <= filter_radius || filter_radius >= 10.1)
                 dispStations.add(s);
         }
 
@@ -115,7 +119,9 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
 
         // display message based on how many stations found
         if (dispStations.size() > 0) {
-            if (filter_radius < 10.1)
+            if (location == null)
+                statusText.setText(getString(R.string.main_noloc));
+            else if (filter_radius < 10.1)
                 statusText.setText(String.format(
                     getString(R.string.main_found),
                     stations.size(), filter_radius));

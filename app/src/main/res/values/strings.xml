@@ -3,6 +3,7 @@
     <string name="main_found">Found %1$d stations. Search radius: %2$.1fkm</string>
     <string name="main_foundall">Found %1$d stations around Toronto</string>
     <string name="main_notfound">No stations found %1$.1fkm around your location</string>
+    <string name="main_noloc">Could not determine your location, showing all stations</string>
     <string name="main_looking">Looking for nearby stations&#8230;</string>
     <string name="main_error">Something went wrong. Try refreshing the list</string>
     <string name="main_aaslegal">All graphical assets were generated using Android Asset Studio\n\nhttps://romannurik.github.io/AndroidAssetStudio/\n\n</string>

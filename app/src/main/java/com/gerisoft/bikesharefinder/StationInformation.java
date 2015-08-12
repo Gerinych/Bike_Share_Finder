@@ -19,9 +19,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+// Extended station information screen
 public class StationInformation extends AppCompatActivity implements OnMapReadyCallback {
     Station s;
 
+    // Inflate layout, get station item, find views, fill out views
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,11 +72,13 @@ public class StationInformation extends AppCompatActivity implements OnMapReadyC
 
         if (s.status == 1) status.setText(getString(R.string.stat_inservice));
         else if (s.status == 0) status.setText(getString(R.string.stat_noservice));
+
         dist.setText(String.format(
                 getString(R.string.stat_away),
                 s.dist));
     }
 
+    // Move map to the station location when map is ready
     @Override
     public void onMapReady(GoogleMap googleMap) {
         CameraUpdate cam = CameraUpdateFactory.newLatLngZoom(s.location, 15);
@@ -84,6 +88,8 @@ public class StationInformation extends AppCompatActivity implements OnMapReadyC
         googleMap.moveCamera(cam);
     }
 
+    // Start Google Maps with directions to station
+    // MapFragment already has a button for it, but whatever
     //http://stackoverflow.com/questions/2662531/launching-google-maps-directions-via-an-intent-on-android
     public void getDirections(View v) {
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,

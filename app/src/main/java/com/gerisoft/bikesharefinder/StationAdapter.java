@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-//Source:
+// Adapter logic for the listview items
 //http://stackoverflow.com/questions/15832335/android-custom-row-item-for-listview
 public class StationAdapter extends BaseAdapter {
 
@@ -17,6 +17,7 @@ public class StationAdapter extends BaseAdapter {
     List<Station> stats;
     private static LayoutInflater inflater = null;
 
+    // Initialize adapter
     public StationAdapter(Context context, List<Station> stats) {
         this.context = context;
         this.stats = stats;
@@ -24,18 +25,22 @@ public class StationAdapter extends BaseAdapter {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    // Get count
     public int getCount() {
         return stats.size();
     }
 
+    // Get station based on position
     public Object getItem(int position) {
         return stats.get(position);
     }
 
+    // Get ID (seems pointless)
     public long getItemId(int position) {
         return position;
     }
 
+    // Fill out the textviews in the list item based on position
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi = convertView;
         if (vi == null)

@@ -26,10 +26,10 @@
         </activity>
         <activity
             android:name=".StationInformation"
-            android:label="Station Information" />
+            android:label="@string/map_statinfo" />
         <activity
             android:name=".MapActivity"
-            android:label="Bike Share Station Map" />
+            android:label="@string/menu_map" />
     </application>
 
 </manifest>

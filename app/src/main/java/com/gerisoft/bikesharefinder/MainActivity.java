@@ -28,8 +28,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+// Main activity, shows the filtered list of all stations
 public class MainActivity extends AppCompatActivity implements DialogResult, LocationListener {
-    //constants
+    // constants
     final String JsonUrl = "http://www.bikesharetoronto.com/stations/json";
 
     // Activity variables
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
     int filter_radius = 20;
     boolean filter_sort = true;
 
+    // Create activity, load prefs, find views, set up location updates, set up station list
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
         // Getting list of stations
         new GetJson().execute();
 
-        //listview click logic
+        // listview click logic
         statList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -97,14 +99,19 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
 
     // Updates listview based on radius and sort method
     public void updateList() {
-        if (filter_sort) Collections.sort(stations, distComp);
-        else Collections.sort(stations, bikeComp);
 
+        // create a new list based on radius
         ArrayList<Station> dispStations = new ArrayList<>();
         for (Station s : stations) {
             if (s.getDistance(location) <= filter_radius)
                 dispStations.add(s);
         }
+
+        // sort that list
+        if (filter_sort) Collections.sort(dispStations, distComp);
+        else Collections.sort(dispStations, bikeComp);
+
+        // display message based on how many stations found
         if (dispStations.size() > 0) {
             statusText.setText(String.format(
                     getString(R.string.main_found),
@@ -114,22 +121,29 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
                     getString(R.string.main_notfound),
                     filter_radius));
         }
+
+        // put it all into listview
         statList.setAdapter(new StationAdapter(this, dispStations));
     }
 
+    // standard stuff, inflate menu layout
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
+    // handling menu actions
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+        // refresh list, the only thing that should change is the number of bikes
         if (id == R.id.refresh) {
             new GetJson().execute();
             return true;
+
+            // show the filter dialog, pass current settings
         } else if (id == R.id.filter) {
             Bundle b = new Bundle();
             b.putInt("radius", filter_radius);
@@ -139,11 +153,15 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
             dialog.setArguments(b);
             dialog.show(getFragmentManager(), "filter");
             return true;
+
+            // switch to map view of all stations
         } else if (id == R.id.map) {
             Intent intent = new Intent(MainActivity.this, MapActivity.class);
             intent.putParcelableArrayListExtra("stations", stations);
             this.startActivity(intent);
             return true;
+
+            //show the legal stuff about Google API
         } else if (id == R.id.legal) {
             AlertDialog legal = new AlertDialog.Builder(MainActivity.this).create();
             legal.setMessage(GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(this));
@@ -181,6 +199,7 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
     public void onProviderEnabled(String provider) {}
     @Override
     public void onProviderDisabled(String provider) {
+        // if current provider gets disabled, use a different one
         if (this.provider.equals(provider)) {
             this.provider = lm.getBestProvider(new Criteria(), true);
             lm.requestLocationUpdates(this.provider, 400, 1, this);
@@ -195,6 +214,8 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
         protected void onPreExecute() {
             statusText.setText(getString(R.string.main_looking));
         }
+
+        // Read the JSON objects from URL and store them in a station list
         @Override
         protected Void doInBackground(Void... params) {
             try {
@@ -207,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
             return null;
         }
 
+        // Update list or display error
         protected void onPostExecute(Void result) {
             Log.i("AsyncTask", "Done");
             if (err != null) statusText.setText(err);

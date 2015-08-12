@@ -2,7 +2,7 @@
     <string name="app_name">Bike Share Finder</string>
     <string name="main_found">Found %1$d stations. Search radius: %2$dkm</string>
     <string name="main_notfound">No stations found %1$dkm around your location</string>
-    <string name="main_looking">Looking for nearby stations...</string>
+    <string name="main_looking">Looking for nearby stations&#8230;</string>
     <string name="main_error">Something went wrong. Try refreshing the list</string>
     <string name="menu_map">Switch to map view</string>
     <string name="menu_refresh">Refresh</string>

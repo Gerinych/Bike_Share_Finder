@@ -11,7 +11,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+// Station class, defines a station and its properties
 public class Station implements Parcelable {
+    // Member variables
     double dist = 0;
     String name;
     int avail;
@@ -21,6 +23,8 @@ public class Station implements Parcelable {
     Date date = new Date();
     int status;
 
+    // Initialize object to point to center of Toronto
+    // Never used, I think, but whatever
     public Station() {
         name = null;
         location = new LatLng(43.7182412,-79.378058);
@@ -29,6 +33,7 @@ public class Station implements Parcelable {
         id = -1;
     }
 
+    // Initialize object based on passed parameters
     public Station(int id, String name, LatLng location, int avail, int total, int status) {
         this.name = name;
         this.location = location;
@@ -38,6 +43,7 @@ public class Station implements Parcelable {
         this.status = status;
     }
 
+    // For passing object between activities
     public Station(Parcel in) {
         dist = in.readDouble();
         name = in.readString();
@@ -49,12 +55,15 @@ public class Station implements Parcelable {
         location = new LatLng(in.readDouble(), in.readDouble());
     }
 
+    // Parsing date from the JSON object
+    // It is such a bad idea to include both 24-hour clock and AM/PM markers
     public void setDate(String time) throws ParseException {
         //http://stackoverflow.com/questions/4216745/java-string-to-date-conversion
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:m:s");
         date = df.parse(time);
     }
 
+    // Calculating distance from current location, store in dist
     //http://rosettacode.org/wiki/Haversine_formula#Java
     public double getDistance(LatLng me) {
         double lat1 = location.latitude,
@@ -73,7 +82,7 @@ public class Station implements Parcelable {
         return dist;
     }
 
-
+    // Parcel logic
     //http://stackoverflow.com/questions/2139134/how-to-send-an-object-from-one-android-activity-to-another-using-intents
     @Override
     public int describeContents() {

@@ -15,7 +15,9 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// General functions to be used outside main classes
 public class Utilities {
+
     // Reading JSON text from URL, returning as string
     public static String ReadURL(String urlText) throws IOException {
         URL url = new URL(urlText);

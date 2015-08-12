@@ -14,6 +14,8 @@ import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+// Used to handle the search options dialog
+// http://developer.android.com/guide/topics/ui/dialogs.html#CustomLayout
 public class FilterDialog extends DialogFragment {
     int radius;
     boolean sort;
@@ -25,12 +27,14 @@ public class FilterDialog extends DialogFragment {
     RadioButton rdBike;
     TextView txtKm;
 
+    // Get current settings from the main activity
     @Override
     public void setArguments(Bundle savedInstanceState) {
         radius = savedInstanceState.getInt("radius", 10);
         sort = savedInstanceState.getBoolean("sort", true);
     }
 
+    // Update the dialog UI based on current settings
     private void updateUI() {
         sbDist.setProgress(this.radius - 1);
         txtKm.setText(this.radius + " km");
@@ -38,14 +42,11 @@ public class FilterDialog extends DialogFragment {
         else rdBike.setChecked(true);
     }
 
+    // Create dialog, assign layout, find views, set listeners, update UI
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
-
-        // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
         vi = inflater.inflate(R.layout.dialog_filter, null);
 
         //finding elements
@@ -59,7 +60,8 @@ public class FilterDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if (v == rdDist) { rdBike.setChecked(false); sort = true; }
-                else { rdDist.setChecked(false); sort = false; }
+                else { rdDist.setChecked(false); sort = false;
+                }
             }
         };
         rdDist.setOnClickListener(radioClick);
@@ -79,6 +81,7 @@ public class FilterDialog extends DialogFragment {
 
         //building view
         builder.setView(vi)
+                // Pass settings to main using DialogResult.getResult()
                 .setPositiveButton(getString(R.string.filter_okay), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
@@ -89,6 +92,7 @@ public class FilterDialog extends DialogFragment {
                         act.getResult(b);
                     }
                 })
+                        // Dismiss dialog
                 .setNegativeButton(getString(R.string.filter_cancel), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         FilterDialog.this.getDialog().cancel();

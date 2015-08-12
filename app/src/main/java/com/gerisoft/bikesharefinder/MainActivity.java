@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements DialogResult, LocationListener {
     //constants
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
         @Override
         public int compare(Station a, Station b) { return new Integer(b.avail).compareTo(a.avail); }
     };
-    List<Station> stations;
+    ArrayList<Station> stations;
     LocationManager lm = null;
     String provider = null;
     LatLng location = null;
@@ -99,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
         if (filter_sort) Collections.sort(stations, distComp);
         else Collections.sort(stations, bikeComp);
 
-        List<Station> dispStations = new ArrayList<>();
+        ArrayList<Station> dispStations = new ArrayList<>();
         for (Station s : stations) {
             if (s.getDistance(location) <= filter_radius)
                 dispStations.add(s);
@@ -134,8 +133,11 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
             dialog.setArguments(b);
             dialog.show(getFragmentManager(), "filter");
             return true;
-        } else if (id == R.id.mapView) {
-            throw new UnsupportedOperationException();
+        } else if (id == R.id.map) {
+            Intent intent = new Intent(MainActivity.this, MapActivity.class);
+            intent.putParcelableArrayListExtra("stations", stations);
+            this.startActivity(intent);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

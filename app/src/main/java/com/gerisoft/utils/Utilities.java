@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Utilities {
@@ -30,8 +29,8 @@ public class Utilities {
     }
 
     // Converting JSON string to Station list
-    public static List<Station> ParseStations(String url) throws IOException {
-        List<Station> ret = new ArrayList<>();
+    public static ArrayList<Station> ParseStations(String url) throws IOException {
+        ArrayList<Station> ret = new ArrayList<>();
 
         try {
             String json = ReadURL(url);

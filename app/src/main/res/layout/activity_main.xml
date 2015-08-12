@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Nearby stations"
+        android:text="@string/mainl_nearby"
         android:id="@+id/txtNearby"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -23,7 +23,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="No stations found"
         android:id="@+id/txtSubtitle"
         android:layout_below="@+id/txtNearby"
         android:layout_centerHorizontal="true" />

@@ -19,7 +19,7 @@ public class Station implements Parcelable {
     LatLng location;
     int id;
     Date date = new Date();
-    String status = null;
+    int status;
 
     public Station() {
         name = null;
@@ -29,18 +29,19 @@ public class Station implements Parcelable {
         id = -1;
     }
 
-    public Station(int id, String name, LatLng location, int avail, int total) {
+    public Station(int id, String name, LatLng location, int avail, int total, int status) {
         this.name = name;
         this.location = location;
         this.avail = avail;
         this.total = total;
         this.id = id;
+        this.status = status;
     }
 
     public Station(Parcel in) {
         dist = in.readDouble();
         name = in.readString();
-        status = in.readString();
+        status = in.readInt();
         avail = in.readInt();
         total = in.readInt();
         id = in.readInt();
@@ -83,7 +84,7 @@ public class Station implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeDouble(dist);
         dest.writeString(name);
-        dest.writeString(status);
+        dest.writeInt(status);
         dest.writeInt(avail);
         dest.writeInt(total);
         dest.writeInt(id);

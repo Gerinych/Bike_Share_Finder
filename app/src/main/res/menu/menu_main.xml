@@ -2,16 +2,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
     <item android:id="@+id/map"
-        android:title="Switch to map view"
+        android:title="@string/menu_map"
         app:showAsAction="always"
         android:icon="@drawable/ic_map" />
     <item android:id="@+id/refresh"
-        android:title="Refresh"
+        android:title="@string/menu_refresh"
         app:showAsAction="always"
         android:icon="@drawable/ic_refresh" />
     <item android:id="@+id/filter"
-        android:title="Filter"
+        android:title="@string/menu_filter"
         app:showAsAction="always"
-        android:icon="@drawable/ic_search">
-    </item>
+        android:icon="@drawable/ic_search" />
+    <item android:id="@+id/legal"
+        android:title="@string/menu_legal"
+        app:showAsAction="never" />
 </menu>

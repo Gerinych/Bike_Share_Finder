@@ -15,9 +15,9 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go to nearest location"
+        android:text="@string/map_nearest"
         android:id="@+id/btnNearest"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:onClick="nearestStation" />
+        android:onClick="actionButton" />
 </RelativeLayout>

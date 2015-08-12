@@ -1,5 +1,6 @@
 package com.gerisoft.bikesharefinder;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.gerisoft.utils.Utilities;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
@@ -104,9 +106,13 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
                 dispStations.add(s);
         }
         if (dispStations.size() > 0) {
-            statusText.setText("Found " + dispStations.size() + " stations. Search radius: " + filter_radius + "km");
+            statusText.setText(String.format(
+                    getString(R.string.main_found),
+                    stations.size(), filter_radius));
         } else {
-            statusText.setText("No stations found " + filter_radius + "km around your location");
+            statusText.setText(String.format(
+                    getString(R.string.main_notfound),
+                    filter_radius));
         }
         statList.setAdapter(new StationAdapter(this, dispStations));
     }
@@ -137,6 +143,11 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
             Intent intent = new Intent(MainActivity.this, MapActivity.class);
             intent.putParcelableArrayListExtra("stations", stations);
             this.startActivity(intent);
+            return true;
+        } else if (id == R.id.legal) {
+            AlertDialog legal = new AlertDialog.Builder(MainActivity.this).create();
+            legal.setMessage(GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(this));
+            legal.show();
             return true;
         }
 
@@ -182,14 +193,14 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
 
         @Override
         protected void onPreExecute() {
-            statusText.setText("Looking for nearby stations...");
+            statusText.setText(getString(R.string.main_looking));
         }
         @Override
         protected Void doInBackground(Void... params) {
             try {
                 stations = Utilities.ParseStations(JsonUrl);
             } catch (IOException e) {
-                err = "Something went wrong. Try refreshing the list";
+                err = getString(R.string.main_error);
                 e.printStackTrace();
             }
             Log.i("AsyncTask", "Running...");

@@ -4,23 +4,32 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+//I probably took a lot of stuff from here
+//https://developers.google.com/maps/documentation/android/marker
+
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     ArrayList<Station> stations = new ArrayList<>();
     CameraUpdate cam = null;
     GoogleMap gMap = null;
+    int selectedId = -1;
+    Button action = null;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +44,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
+        action = (Button)findViewById(R.id.btnNearest);
+
         MapFragment map = (MapFragment)getFragmentManager().findFragmentById(R.id.mapViewFragment);
         map.getMapAsync(this);
     }
@@ -43,18 +54,49 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         gMap = googleMap;
         for (Station s : stations) {
+            int marker;
+            if (s.avail == 0) marker = R.drawable.ic_marker_gray;
+            else if (s.total / s.avail == 1) marker = R.drawable.ic_marker_green;
+            else if (s.total / s.avail == 2) marker = R.drawable.ic_marker_yellow;
+            else marker = R.drawable.ic_marker_red;
+
             googleMap.addMarker(new MarkerOptions()
                     .title("#" + s.id)
-                    .position(s.location));
+                    .position(s.location)
+                    .snippet(String.format(
+                            getString(R.string.map_markersub),
+                            s.avail, s.total))
+                    .icon(BitmapDescriptorFactory.fromResource(marker)));
+            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    selectedId = Integer.parseInt(marker.getId().substring(1));
+                    action.setText(getString(R.string.map_statinfo));
+                    return false;
+                }
+            });
+            googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    selectedId = -1;
+                    action.setText(getString(R.string.map_nearest));
+                }
+            });
         }
         googleMap.setMyLocationEnabled(true);
         cam = CameraUpdateFactory.newLatLngZoom(new LatLng(43.656003,-79.3802945), 14);
         googleMap.moveCamera(cam);
     }
 
-    public void nearestStation(View v) {
-        Station s = stations.get(0);
-        cam = CameraUpdateFactory.newLatLngZoom(s.location, 18);
-        gMap.animateCamera(cam);
+    public void actionButton(View v) {
+        if (selectedId == -1) {
+            Station s = stations.get(0);
+            cam = CameraUpdateFactory.newLatLngZoom(s.location, 18);
+            gMap.animateCamera(cam);
+        } else {
+            Intent intent = new Intent(MapActivity.this, StationInformation.class);
+            intent.putExtra("stationItem", stations.get(selectedId));
+            startActivity(intent);
+        }
     }
 }

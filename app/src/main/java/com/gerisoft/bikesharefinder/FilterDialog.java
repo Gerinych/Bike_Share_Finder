@@ -79,7 +79,7 @@ public class FilterDialog extends DialogFragment {
 
         //building view
         builder.setView(vi)
-                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.filter_okay), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         DialogResult act = (DialogResult)getActivity();
@@ -89,7 +89,7 @@ public class FilterDialog extends DialogFragment {
                         act.getResult(b);
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.filter_cancel), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         FilterDialog.this.getDialog().cancel();
                     }

@@ -1,11 +1,30 @@
 <resources>
     <string name="app_name">Bike Share Finder</string>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_main2">Main2Activity</string>
-
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <string name="main_found">Found %1$d stations. Search radius: %2$dkm</string>
+    <string name="main_notfound">No stations found %1$dkm around your location</string>
+    <string name="main_looking">Looking for nearby stations...</string>
+    <string name="main_error">Something went wrong. Try refreshing the list</string>
+    <string name="menu_map">Switch to map view</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="menu_filter">Search settings</string>
+    <string name="menu_legal">Legal notices</string>
+    <string name="map_nearest">Go to nearest location</string>
+    <string name="map_statinfo">Station information</string>
+    <string name="map_markersub">%1$d/%2$d bikes</string>
+    <string name="stat_bikes">Bikes available: %1$d out of %2$d</string>
+    <string name="stat_updatedtoday">Updated today at %1$s</string>
+    <string name="stat_updatedyest">Updated yesterday at %1$s</string>
+    <string name="stat_updated">Updated on %1$s</string>
+    <string name="stat_away">%1$.1fkm away</string>
+    <string name="statad_km">%1$.1f km</string>
+    <string name="filter_okay">Okay</string>
+    <string name="filter_cancel">Cancel</string>
+    <string name="mainl_nearby">Nearby stations</string>
+    <string name="filterl_setradius">Set radius</string>
+    <string name="filterl_sortby">Sort by</string>
+    <string name="filterl_dist">Distance</string>
+    <string name="filterl_bikes"># of available bikes</string>
+    <string name="statl_direct">Get directions</string>
+    <string name="stat_inservice">In service</string>
+    <string name="stat_noservice">Out of order</string>
 </resources>

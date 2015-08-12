@@ -44,8 +44,8 @@ public class Utilities {
                         j.getString("stationName"),
                         new LatLng(j.getDouble("latitude"), j.getDouble("longitude")),
                         j.getInt("availableBikes"),
-                        j.getInt("totalDocks"));
-
+                        j.getInt("totalDocks"),
+                        j.getInt("statusKey"));
                 try {
                     String date = j.getString("lastCommunicationTime");
                     stat.setDate(date);

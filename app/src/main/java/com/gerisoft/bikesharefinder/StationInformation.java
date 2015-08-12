@@ -42,7 +42,9 @@ public class StationInformation extends AppCompatActivity implements OnMapReadyC
 
         name.setText(s.name);
         id.setText("#" + s.id);
-        bikes.setText("Bikes available: " + s.avail + " out of " + s.total);
+        bikes.setText(String.format(
+                getString(R.string.stat_bikes),
+                s.avail, s.total));
         long diff = new Date().getTime() - s.date.getTime();
 
         if (diff < 24 * 60 * 60 * 1000) {
@@ -50,18 +52,27 @@ public class StationInformation extends AppCompatActivity implements OnMapReadyC
             df.setTimeZone(TimeZone.getDefault());
             DateFormat day = new SimpleDateFormat("d");
             if (day.format(new Date()).equals(day.format(s.date))) {
-                update.setText("Updated today at " + df.format(s.date));
+                update.setText(String.format(
+                        getString(R.string.stat_updatedtoday),
+                        df.format(s.date)));
             } else {
-                update.setText("Updated yesterday at " + df.format(s.date));
+                update.setText(String.format(
+                        getString(R.string.stat_updatedyest),
+                        df.format(s.date)));
             }
         } else {
             DateFormat df = new SimpleDateFormat("E, MMM d 'at' K:mm a zzz");
             df.setTimeZone(TimeZone.getDefault());
-            update.setText("Updated on " + df.format(s.date));
+            update.setText(String.format(
+                    getString(R.string.stat_updated),
+                    df.format(s.date)));
         }
 
-        status.setText(s.status);
-        dist.setText(String.format("%.1f km away", s.dist));
+        if (s.status == 1) status.setText(getString(R.string.stat_inservice));
+        else if (s.status == 0) status.setText(getString(R.string.stat_noservice));
+        dist.setText(String.format(
+                getString(R.string.stat_away),
+                s.dist));
     }
 
     @Override

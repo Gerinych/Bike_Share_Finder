@@ -80,9 +80,8 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
         Location tmp = lm.getLastKnownLocation(provider);
         if (tmp != null) {
             location = new LatLng(tmp.getLatitude(), tmp.getLongitude());
-            Log.i("Location stuff", String.format("Provider set to %s, last known location = %f %f",
-                    provider, location.latitude, location.longitude));
         }
+        Log.i("Location stuff", String.format("Provider set to %s", provider));
 
         // Getting list of stations
         new GetJson().execute();
@@ -270,8 +269,7 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
         Location tmp = lm.getLastKnownLocation(provider);
         if (tmp != null) {
             location = new LatLng(tmp.getLatitude(), tmp.getLongitude());
-            Log.i("Location stuff", String.format("Provider set to %s, last known location = %f %f",
-                    provider, location.latitude, location.longitude));
         }
+        Log.i("Location stuff", String.format("Provider set to %s", provider));
     }
 }

@@ -23,6 +23,8 @@ import com.gerisoft.utils.Utilities;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.model.LatLng;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -225,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
         protected Void doInBackground(Void... params) {
             try {
                 stations = Utilities.ParseStations(JsonUrl);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 err = getString(R.string.main_error);
                 e.printStackTrace();
             }

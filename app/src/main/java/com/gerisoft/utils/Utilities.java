@@ -31,35 +31,32 @@ public class Utilities {
     }
 
     // Converting JSON string to Station list
-    public static ArrayList<Station> ParseStations(String url) throws IOException {
+    public static ArrayList<Station> ParseStations(String url) throws IOException, JSONException {
         ArrayList<Station> ret = new ArrayList<>();
 
-        try {
-            String json = ReadURL(url);
-            JSONObject mainJson = new JSONObject(json);
+        String json = ReadURL(url);
+        JSONObject mainJson = new JSONObject(json);
 
-            JSONArray sArray = mainJson.getJSONArray("stationBeanList");
-            for (int i = 0; i < sArray.length(); i++) {
-                JSONObject j = sArray.getJSONObject(i);
-                Station stat = new Station(
-                        j.getInt("landMark"),
-                        j.getString("stationName"),
-                        new LatLng(j.getDouble("latitude"), j.getDouble("longitude")),
-                        j.getInt("availableBikes"),
-                        j.getInt("totalDocks"),
-                        j.getInt("statusKey"));
-                try {
-                    String date = j.getString("lastCommunicationTime");
-                    stat.setDate(date);
-                } catch (ParseException e) {
-                    Log.e("JSONParser", e.getMessage());
-                }
-
-                ret.add(stat);
+        JSONArray sArray = mainJson.getJSONArray("stationBeanList");
+        for (int i = 0; i < sArray.length(); i++) {
+            JSONObject j = sArray.getJSONObject(i);
+            Station stat = new Station(
+                    j.getInt("landMark"),
+                    j.getString("stationName"),
+                    new LatLng(j.getDouble("latitude"), j.getDouble("longitude")),
+                    j.getInt("availableBikes"),
+                    j.getInt("totalDocks"),
+                    j.getInt("statusKey"));
+            try {
+                String date = j.getString("lastCommunicationTime");
+                stat.setDate(date);
+            } catch (ParseException e) {
+                Log.e("JSONParser", e.getMessage());
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
+
+            ret.add(stat);
         }
+
         return ret;
     }
 }

@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Bike Share Finder</string>
-    <string name="main_found">Found %1$d stations. Search radius: %2$dkm</string>
-    <string name="main_notfound">No stations found %1$dkm around your location</string>
+    <string name="main_found">Found %1$d stations. Search radius: %2$.1fkm</string>
+    <string name="main_foundall">Found %1$d stations around Toronto</string>
+    <string name="main_notfound">No stations found %1$.1fkm around your location</string>
     <string name="main_looking">Looking for nearby stations&#8230;</string>
     <string name="main_error">Something went wrong. Try refreshing the list</string>
     <string name="menu_map">Switch to map view</string>
@@ -19,6 +20,7 @@
     <string name="statad_km">%1$.1f km</string>
     <string name="filter_okay">Okay</string>
     <string name="filter_cancel">Cancel</string>
+    <string name="filter_showall">All</string>
     <string name="mainl_nearby">Nearby stations</string>
     <string name="filterl_setradius">Set radius</string>
     <string name="filterl_sortby">Sort by</string>

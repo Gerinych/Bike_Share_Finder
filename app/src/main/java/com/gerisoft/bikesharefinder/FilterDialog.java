@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
@@ -17,9 +18,8 @@ import android.widget.TextView;
 // Used to handle the search options dialog
 // http://developer.android.com/guide/topics/ui/dialogs.html#CustomLayout
 public class FilterDialog extends DialogFragment {
-    int radius;
+    double radius;
     boolean sort;
-    Context context;
     View vi = null;
 
     SeekBar sbDist;
@@ -30,14 +30,19 @@ public class FilterDialog extends DialogFragment {
     // Get current settings from the main activity
     @Override
     public void setArguments(Bundle savedInstanceState) {
-        radius = savedInstanceState.getInt("radius", 10);
+        radius = savedInstanceState.getDouble("radius", 5);
         sort = savedInstanceState.getBoolean("sort", true);
     }
 
     // Update the dialog UI based on current settings
     private void updateUI() {
-        sbDist.setProgress(this.radius - 1);
-        txtKm.setText(this.radius + " km");
+        int rad = (int)Math.round(this.radius * 10) - 1;
+        Log.i("rad", String.valueOf(rad));
+        sbDist.setProgress(rad);
+
+        if (rad < 100) txtKm.setText(String.format("%.1fkm", this.radius));
+        else txtKm.setText(getString(R.string.filter_showall));
+
         if (sort) rdDist.setChecked(true);
         else rdBike.setChecked(true);
     }
@@ -70,8 +75,10 @@ public class FilterDialog extends DialogFragment {
         sbDist.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                txtKm.setText(progress + 1 + " km");
-                radius = progress + 1;
+                double rad = (double)(progress + 1) / 10;
+                if (progress < 100) txtKm.setText(String.format("%.1fkm", rad));
+                else txtKm.setText(getString(R.string.filter_showall));
+                radius = rad;
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -87,7 +94,7 @@ public class FilterDialog extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         DialogResult act = (DialogResult)getActivity();
                         Bundle b = new Bundle();
-                        b.putInt("radius", radius);
+                        b.putDouble("radius", radius);
                         b.putBoolean("sort", sort);
                         act.getResult(b);
                     }

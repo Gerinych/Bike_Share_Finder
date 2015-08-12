@@ -23,7 +23,7 @@
         android:layout_alignStart="@+id/txtSetRadius"
         android:layout_toLeftOf="@+id/txtKm"
         android:layout_toStartOf="@+id/txtKm"
-        android:max="49" />
+        android:max="100" />
 
     <TextView
         android:layout_width="60dp"

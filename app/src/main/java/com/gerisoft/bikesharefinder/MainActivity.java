@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
     SharedPreferences sets;
 
     //filter settings
-    int filter_radius = 20;
+    double filter_radius = 5;
     boolean filter_sort = true;
 
     // Create activity, load prefs, find views, set up location updates, set up station list
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
 
         // Loading shared prefs
         sets = getPreferences(0);
-        filter_radius = sets.getInt("radius", 20);
+        filter_radius = sets.getFloat("radius", 5);
         filter_sort = sets.getBoolean("sort", true);
 
         //Finding views used
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
         // create a new list based on radius
         ArrayList<Station> dispStations = new ArrayList<>();
         for (Station s : stations) {
-            if (s.getDistance(location) <= filter_radius)
+            if (filter_radius >= 10.1 || s.getDistance(location) <= filter_radius)
                 dispStations.add(s);
         }
 
@@ -113,9 +113,14 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
 
         // display message based on how many stations found
         if (dispStations.size() > 0) {
-            statusText.setText(String.format(
+            if (filter_radius < 10.1)
+                statusText.setText(String.format(
                     getString(R.string.main_found),
                     stations.size(), filter_radius));
+            else
+                statusText.setText(String.format(
+                        getString(R.string.main_foundall),
+                        stations.size()));
         } else {
             statusText.setText(String.format(
                     getString(R.string.main_notfound),
@@ -146,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
             // show the filter dialog, pass current settings
         } else if (id == R.id.filter) {
             Bundle b = new Bundle();
-            b.putInt("radius", filter_radius);
+            b.putDouble("radius", filter_radius);
             b.putBoolean("sort", filter_sort);
 
             FilterDialog dialog = new FilterDialog();
@@ -176,11 +181,11 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
     //http://stackoverflow.com/questions/12622742/get-value-from-dialogfragment
     @Override
     public void getResult(Bundle savedInstanceState) {
-        filter_radius = savedInstanceState.getInt("radius");
+        filter_radius = savedInstanceState.getDouble("radius");
         filter_sort = savedInstanceState.getBoolean("sort");
 
         SharedPreferences.Editor editor = sets.edit();
-        editor.putInt("radius", filter_radius);
+        editor.putFloat("radius", (float) filter_radius);
         editor.putBoolean("sort", filter_sort);
         editor.commit();
 

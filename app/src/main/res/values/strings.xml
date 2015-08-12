@@ -5,7 +5,8 @@
     <string name="main_notfound">No stations found %1$.1fkm around your location</string>
     <string name="main_looking">Looking for nearby stations&#8230;</string>
     <string name="main_error">Something went wrong. Try refreshing the list</string>
-    <string name="menu_map">Switch to map view</string>
+    <string name="main_aaslegal">All graphical assets were generated using Android Asset Studio\n\nhttps://romannurik.github.io/AndroidAssetStudio/\n\n</string>
+    <string name="menu_map">Station map</string>
     <string name="menu_refresh">Refresh</string>
     <string name="menu_filter">Search settings</string>
     <string name="menu_legal">Legal notices</string>

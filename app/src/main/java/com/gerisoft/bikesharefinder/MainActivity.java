@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
         // create a new list based on radius
         ArrayList<Station> dispStations = new ArrayList<>();
         for (Station s : stations) {
-            if (filter_radius >= 10.1 || s.getDistance(location) <= filter_radius)
+            if (s.getDistance(location) <= filter_radius || filter_radius >= 10.1)
                 dispStations.add(s);
         }
 
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
             //show the legal stuff about Google API
         } else if (id == R.id.legal) {
             AlertDialog legal = new AlertDialog.Builder(MainActivity.this).create();
-            legal.setMessage(GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(this));
+            legal.setMessage(getString(R.string.main_aaslegal) + GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(this));
             legal.show();
             return true;
         }

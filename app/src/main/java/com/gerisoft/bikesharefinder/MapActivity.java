@@ -66,14 +66,22 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             else if (s.total / s.avail == 2) marker = R.drawable.ic_marker_yellow;
             else marker = R.drawable.ic_marker_red;
 
-            // Add the marker
-            googleMap.addMarker(new MarkerOptions()
-                    .title("#" + s.id)
-                    .position(s.location)
-                    .snippet(String.format(
-                            getString(R.string.map_markersub),
-                            s.avail, s.total))
-                    .icon(BitmapDescriptorFactory.fromResource(marker)));
+            // Add the marker, gray out if it's not in service
+            if (s.status == 0) {
+                googleMap.addMarker(new MarkerOptions()
+                        .title("#" + s.id)
+                        .position(s.location)
+                        .snippet(getString(R.string.stat_noservice))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_gray)));
+            } else {
+                googleMap.addMarker(new MarkerOptions()
+                        .title("#" + s.id)
+                        .position(s.location)
+                        .snippet(String.format(
+                                getString(R.string.map_markersub),
+                                s.avail, s.total))
+                        .icon(BitmapDescriptorFactory.fromResource(marker)));
+            }
         }
         // Set up click listeners
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {

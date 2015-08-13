@@ -2,7 +2,6 @@ package com.gerisoft.bikesharefinder;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -14,7 +13,7 @@ import java.util.*;
 // Station class, defines a station and its properties
 public class Station implements Parcelable {
     // Member variables
-    double dist = 0;
+    double dist = -1;
     String name;
     int avail;
     int total;
@@ -22,16 +21,6 @@ public class Station implements Parcelable {
     int id;
     Date date = new Date();
     int status;
-
-    // Initialize object to point to center of Toronto
-    // Never used, I think, but whatever
-    public Station() {
-        name = null;
-        location = new LatLng(43.7182412,-79.378058);
-        avail = 0;
-        total = 0;
-        id = -1;
-    }
 
     // Initialize object based on passed parameters
     public Station(int id, String name, LatLng location, int avail, int total, int status) {

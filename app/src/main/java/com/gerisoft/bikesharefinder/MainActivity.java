@@ -37,8 +37,7 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
     TextView statusText = null;
     Comparator<Station> distComp = new Comparator<Station>() {
         @Override
-        public int compare(Station a, Station b) {
-            return Double.compare(a.dist, b.dist);
+        public int compare(Station a, Station b) {return Double.compare(a.dist, b.dist);
         }
     };
     Comparator<Station> bikeComp = new Comparator<Station>() {
@@ -72,12 +71,7 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
 
         // Location set up
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        provider = lm.getBestProvider(new Criteria(), true);
-        lm.requestLocationUpdates(provider, 400 , 1, this);
-        Location tmp = lm.getLastKnownLocation(provider);
-        if (tmp != null) {
-            location = new LatLng(tmp.getLatitude(), tmp.getLongitude());
-        }
+        locationSetup(new Criteria());
         Log.i("Location stuff", String.format("Provider set to %s", provider));
 
         // Getting list of stations
@@ -147,13 +141,14 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        // refresh list, the only thing that should change is the number of bikes
         if (id == R.id.refresh) {
+            // refresh list, the only thing that should change is the number of bikes
+
             new GetJson().execute();
             return true;
-
-            // show the filter dialog, pass current settings
         } else if (id == R.id.filter) {
+            // show the filter dialog, pass current settings
+
             Bundle b = new Bundle();
             b.putDouble("radius", filter_radius);
             b.putBoolean("sort", filter_sort);
@@ -163,15 +158,16 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
             dialog.show(getFragmentManager(), "filter");
             return true;
 
-            // switch to map view of all stations
         } else if (id == R.id.map) {
+            // switch to map view of all stations
+
             Intent intent = new Intent(MainActivity.this, MapActivity.class);
             intent.putParcelableArrayListExtra("stations", stations);
             this.startActivity(intent);
             return true;
-
-            //show the legal stuff about Google API
         } else if (id == R.id.legal) {
+            //show the legal stuff about Google API
+
             AlertDialog legal = new AlertDialog.Builder(MainActivity.this).create();
             legal.setMessage(getString(R.string.main_aaslegal) + GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(this));
             legal.show();
@@ -191,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
         SharedPreferences.Editor editor = sets.edit();
         editor.putFloat("radius", (float) filter_radius);
         editor.putBoolean("sort", filter_sort);
-        editor.commit();
+        editor.apply();
 
         updateList();
     }
@@ -224,10 +220,11 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
     @Override
     public void onProviderDisabled(String provider) {
         // if current provider gets disabled, use a different one
-        if (this.provider.equals(provider)) {
-            this.provider = lm.getBestProvider(new Criteria(), true);
-            lm.requestLocationUpdates(this.provider, 400, 1, this);
-        }
+
+        if (this.provider.equals(provider))
+            locationSetup(new Criteria());
+
+        Log.i("Location stuff", String.format("Provider set to %s", this.provider));
     }
 
     // JSON retrieval and parsing in a separate thread
@@ -276,12 +273,18 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
     @Override
     protected void onResume(){
         super.onResume();
-        provider = lm.getBestProvider(new Criteria(), true);
-        lm.requestLocationUpdates(provider, 400 , 1, this);
-        Location tmp = lm.getLastKnownLocation(provider);
-        if (tmp != null) {
-            location = new LatLng(tmp.getLatitude(), tmp.getLongitude());
-        }
+        locationSetup(new Criteria());
         Log.i("Location stuff", String.format("Provider set to %s", provider));
+    }
+
+    // Gets the best provider, sets up requests and last known location
+    // I included criteria in case I wanted to make changes
+    // depending on accuracy and power consumption
+    private void locationSetup(Criteria c) {
+        provider = lm.getBestProvider(c, true);
+        lm.requestLocationUpdates(provider, 1000, 2, this);
+        Location tmp = lm.getLastKnownLocation(provider);
+        if (tmp != null)
+            location = new LatLng(tmp.getLatitude(), tmp.getLongitude());
     }
 }

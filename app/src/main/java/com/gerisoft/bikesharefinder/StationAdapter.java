@@ -52,7 +52,7 @@ public class StationAdapter extends BaseAdapter {
 
         Station temp = stats.get(position);
         tName.setText(temp.name);
-        tDist.setText(String.format("%.1f km", temp.dist));
+        if (temp.dist >= 0) tDist.setText(String.format("%.1fkm", temp.dist));
         tAvail.setText(Integer.toString(temp.avail));
         tTotal.setText("/" + Integer.toString(temp.total));
         return vi;

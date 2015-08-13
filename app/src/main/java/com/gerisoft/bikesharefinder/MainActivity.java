@@ -23,9 +23,6 @@ import com.gerisoft.utils.Utilities;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.model.LatLng;
 
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -48,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
         @Override
         public int compare(Station a, Station b) { return new Integer(b.avail).compareTo(a.avail); }
     };
-    ArrayList<Station> stations;
+    ArrayList<Station> stations, dispStations;
     LocationManager lm = null;
     String provider = null;
     LatLng location = null;
@@ -104,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
     public void updateList() {
 
         // create a new list based on radius
-        ArrayList<Station> dispStations = new ArrayList<>();
+        dispStations = new ArrayList<>();
         for (Station s : stations) {
             if (location == null)
                 dispStations.add(s);
@@ -203,7 +200,17 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
     @Override
     public void onLocationChanged(Location location) {
         this.location = new LatLng(location.getLatitude(), location.getLongitude());
-        updateList();
+
+        // I really hate this piece of code
+        //http://stackoverflow.com/questions/3724874/how-can-i-update-a-single-row-in-a-listview
+        //http://stackoverflow.com/questions/6740089/android-getting-a-count-of-the-visible-children-in-a-listview
+        Log.i("lst", "fvc " + statList.getFirstVisiblePosition() + " lvc " + statList.getLastVisiblePosition());
+        for (int i = statList.getFirstVisiblePosition(); i <= statList.getLastVisiblePosition(); i++) {
+            View v = statList.getChildAt(i - statList.getFirstVisiblePosition());
+            TextView dist = null;
+            if (v != null) dist = (TextView) v.findViewById(R.id.txtDist);
+            if (dist != null) dist.setText(String.format("%.1f km", dispStations.get(i).getDistance(this.location)));
+        }
     }
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {}

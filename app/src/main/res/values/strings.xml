@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Bike Share Finder</string>
+    <string name="app_name">Station list</string>
     <string name="main_found">Found %1$d stations. Search radius: %2$.1fkm</string>
     <string name="main_foundall">Found %1$d stations around Toronto</string>
     <string name="main_notfound">No stations found %1$.1fkm around your location</string>

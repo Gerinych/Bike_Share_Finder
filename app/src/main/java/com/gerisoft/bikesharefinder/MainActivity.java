@@ -199,6 +199,11 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
     // Location stuff
     @Override
     public void onLocationChanged(Location location) {
+        if (this.location == null) {
+            this.location = new LatLng(location.getLatitude(), location.getLongitude());
+            updateList();
+            return;
+        }
         this.location = new LatLng(location.getLatitude(), location.getLongitude());
 
         // I really hate this piece of code

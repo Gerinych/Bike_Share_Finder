@@ -1,7 +1,9 @@
 package com.gerisoft.utils;
 
 import android.util.Log;
+import android.widget.ImageView;
 
+import com.gerisoft.bikesharefinder.R;
 import com.gerisoft.bikesharefinder.Station;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -17,6 +19,14 @@ import java.util.Scanner;
 
 // General functions to be used outside main classes
 public class Utilities {
+    static int[] b = {R.drawable.ic_northwest,
+            R.drawable.ic_west,
+            R.drawable.ic_southwest,
+            R.drawable.ic_south,
+            R.drawable.ic_southeast,
+            R.drawable.ic_east,
+            R.drawable.ic_northeast,
+            R.drawable.ic_north};
 
     // Reading JSON text from URL, returning as string
     public static String ReadURL(String urlText) throws IOException {
@@ -58,5 +68,10 @@ public class Utilities {
         }
 
         return ret;
+    }
+
+    // sets the imageview in the listitem to the given bearing
+    public static void setBearing(int bearing, ImageView img) {
+        img.setImageResource(b[bearing]);
     }
 }

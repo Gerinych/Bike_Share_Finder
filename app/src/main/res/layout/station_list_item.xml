@@ -53,4 +53,13 @@
         android:layout_alignLeft="@+id/txtName"
         android:layout_alignStart="@+id/txtName" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgBearing"
+        android:src="@drawable/ic_north"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>

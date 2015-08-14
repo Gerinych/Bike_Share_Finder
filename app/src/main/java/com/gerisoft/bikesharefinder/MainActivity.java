@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -218,8 +219,16 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
         for (int i = statList.getFirstVisiblePosition(); i <= statList.getLastVisiblePosition(); i++) {
             View v = statList.getChildAt(i - statList.getFirstVisiblePosition());
             TextView dist = null;
-            if (v != null) dist = (TextView) v.findViewById(R.id.txtDist);
-            if (dist != null) dist.setText(String.format("%.1f km", dispStations.get(i).getDistance(this.location)));
+            ImageView img = null;
+            if (v != null) {
+                dist = (TextView) v.findViewById(R.id.txtDist);
+                img = (ImageView) v.findViewById(R.id.imgBearing);
+            }
+            if (dist != null) {
+                dispStations.get(i).getDistance(this.location);
+                Utilities.setBearing(dispStations.get(i).bearing, img);
+                dist.setText(String.format("%.1f km", dispStations.get(i).dist));
+            }
         }
     }
     @Override

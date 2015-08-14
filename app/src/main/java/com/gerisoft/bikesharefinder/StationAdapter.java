@@ -5,7 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.gerisoft.utils.Utilities;
 
 import java.util.List;
 
@@ -49,10 +52,14 @@ public class StationAdapter extends BaseAdapter {
         TextView tDist = (TextView) vi.findViewById(R.id.txtDist);
         TextView tAvail = (TextView) vi.findViewById(R.id.txtAvailable);
         TextView tTotal = (TextView) vi.findViewById(R.id.txtTotal);
+        ImageView iDir = (ImageView) vi.findViewById(R.id.imgBearing);
 
         Station temp = stats.get(position);
         tName.setText(temp.name);
-        if (temp.dist >= 0) tDist.setText(String.format("%.1fkm", temp.dist));
+        if (temp.dist >= 0) {
+            Utilities.setBearing(temp.bearing, iDir);
+            tDist.setText(String.format("%.1fkm", temp.dist));
+        }
         tAvail.setText(Integer.toString(temp.avail));
         tTotal.setText("/" + Integer.toString(temp.total));
         return vi;

@@ -14,6 +14,7 @@ import java.util.*;
 public class Station implements Parcelable {
     // Member variables
     double dist = -1;
+    int bearing;
     String name;
     int avail;
     int total;
@@ -52,9 +53,11 @@ public class Station implements Parcelable {
         date = df.parse(time);
     }
 
-    // Calculating distance from current location, store in dist
+    // Calculating distance and bearing from current location, store in dist
     //http://rosettacode.org/wiki/Haversine_formula#Java
+    //http://stackoverflow.com/questions/3209899/determine-compass-direction-from-one-lat-lon-to-the-other
     public double getDistance(LatLng me) {
+        // Distance
         double lat1 = location.latitude,
                 lat2 = me.latitude,
                 lon1 = location.longitude,
@@ -68,6 +71,17 @@ public class Station implements Parcelable {
         double a = Math.pow(Math.sin(dLat / 2),2) + Math.pow(Math.sin(dLon / 2),2) * Math.cos(lat1) * Math.cos(lat2);
         double c = 2 * Math.asin(Math.sqrt(a));
         dist = 6372.8 * c;
+
+        // Bearing
+        double y = Math.sin(dLon) * Math.cos(lat1);
+        double x = Math.cos(lat2)*Math.sin(lat1) -
+                Math.sin(lat2)*Math.cos(lat1)*Math.cos(dLon);
+        double brng = Math.toDegrees(Math.atan2(y, x));
+
+        double index = brng - 22.5;
+        if (index < 0) index += 360;
+        bearing = (int)Math.floor(index / 45);
+
         return dist;
     }
 

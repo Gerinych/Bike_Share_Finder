@@ -215,19 +215,23 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
         // I really hate this piece of code
         //http://stackoverflow.com/questions/3724874/how-can-i-update-a-single-row-in-a-listview
         //http://stackoverflow.com/questions/6740089/android-getting-a-count-of-the-visible-children-in-a-listview
-        Log.i("lst", "fvc " + statList.getFirstVisiblePosition() + " lvc " + statList.getLastVisiblePosition());
-        for (int i = statList.getFirstVisiblePosition(); i <= statList.getLastVisiblePosition(); i++) {
-            View v = statList.getChildAt(i - statList.getFirstVisiblePosition());
-            TextView dist = null;
-            ImageView img = null;
-            if (v != null) {
-                dist = (TextView) v.findViewById(R.id.txtDist);
-                img = (ImageView) v.findViewById(R.id.imgBearing);
-            }
-            if (dist != null) {
-                dispStations.get(i).getDistance(this.location);
-                Utilities.setBearing(dispStations.get(i).bearing, img);
-                dist.setText(String.format("%.1f km", dispStations.get(i).dist));
+        for (int i = 0; i < dispStations.size(); i++) {
+            // Update distance info for the stations loaded into the list
+            dispStations.get(i).getDistance(this.location);
+
+            // Update views if they're currently visible
+            if (i >= statList.getFirstVisiblePosition() && i <= statList.getLastVisiblePosition()) {
+                View v = statList.getChildAt(i - statList.getFirstVisiblePosition());
+                TextView dist = null;
+                ImageView img = null;
+                if (v != null) {
+                    dist = (TextView) v.findViewById(R.id.txtDist);
+                    img = (ImageView) v.findViewById(R.id.imgBearing);
+                }
+                if (dist != null) {
+                    Utilities.setBearing(dispStations.get(i).bearing, img);
+                    dist.setText(String.format("%.1f km", dispStations.get(i).dist));
+                }
             }
         }
     }

@@ -1,9 +1,11 @@
 package com.gerisoft.bikesharefinder;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -22,6 +24,7 @@ import java.util.TimeZone;
 // Extended station information screen
 public class StationInformation extends AppCompatActivity implements OnMapReadyCallback {
     Station s;
+    String[] dirs;
 
     // Inflate layout, get station item, find views, fill out views
     @Override
@@ -73,9 +76,10 @@ public class StationInformation extends AppCompatActivity implements OnMapReadyC
         if (s.status == 1) status.setText(getString(R.string.stat_inservice));
         else if (s.status == 0) status.setText(getString(R.string.stat_noservice));
 
+        dirs = getResources().getStringArray(R.array.directions);
         dist.setText(String.format(
                 getString(R.string.stat_away),
-                s.dist));
+                s.dist, dirs[s.bearing]));
     }
 
     // Move map to the station location when map is ready

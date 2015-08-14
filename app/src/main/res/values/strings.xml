@@ -19,7 +19,7 @@
     <string name="stat_updatedtoday">Updated today at %1$s</string>
     <string name="stat_updatedyest">Updated yesterday at %1$s</string>
     <string name="stat_updated">Updated on %1$s</string>
-    <string name="stat_away">%1$.1fkm away</string>
+    <string name="stat_away">%1$.1fkm %2$s</string>
     <string name="statad_km">%1$.1f km</string>
     <string name="filter_okay">Okay</string>
     <string name="filter_cancel">Cancel</string>
@@ -32,4 +32,14 @@
     <string name="statl_direct">Get directions</string>
     <string name="stat_inservice">In service</string>
     <string name="stat_noservice">Out of order</string>
+    <string-array name="directions">
+        <item>northwest</item>
+        <item>west</item>
+        <item>southwest</item>
+        <item>south</item>
+        <item>southeast</item>
+        <item>east</item>
+        <item>northeast</item>
+        <item>north</item>
+    </string-array>
 </resources>

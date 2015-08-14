@@ -43,6 +43,7 @@ public class Station implements Parcelable {
         id = in.readInt();
         date = new Date(in.readLong());
         location = new LatLng(in.readDouble(), in.readDouble());
+        bearing = in.readInt();
     }
 
     // Parsing date from the JSON object
@@ -103,6 +104,7 @@ public class Station implements Parcelable {
         dest.writeLong(date.getTime());
         dest.writeDouble(location.latitude);
         dest.writeDouble(location.longitude);
+        dest.writeInt(bearing);
     }
 
     public static final Parcelable.Creator<Station> CREATOR = new Parcelable.Creator<Station>() {

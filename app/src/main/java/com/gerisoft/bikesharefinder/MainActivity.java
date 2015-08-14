@@ -31,6 +31,7 @@ import java.util.Comparator;
 public class MainActivity extends AppCompatActivity implements DialogResult, LocationListener {
     // constants
     final String JsonUrl = "http://www.bikesharetoronto.com/stations/json";
+    Criteria crit = new Criteria();
 
     // Activity variables
     ListView statList = null;
@@ -70,8 +71,16 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
         statusText = (TextView) findViewById(R.id.txtSubtitle);
 
         // Location set up
+        // https://blog.codecentric.de/en/2014/05/android-gps-positioning-location-strategies/
+        crit.setPowerRequirement(Criteria.POWER_LOW); // Chose your desired power consumption level.
+        crit.setAccuracy(Criteria.ACCURACY_FINE); // Choose your accuracy requirement.
+        crit.setSpeedRequired(true); // Chose if speed for first location fix is required.
+        crit.setAltitudeRequired(false); // Choose if you use altitude.
+        crit.setBearingRequired(false); // Choose if you use bearing.
+        crit.setCostAllowed(false); // Choose if this provider can waste money :-)
+
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationSetup(new Criteria());
+        locationSetup(crit);
         Log.i("Location stuff", String.format("Provider set to %s", provider));
 
         // Getting list of stations
@@ -222,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
         // if current provider gets disabled, use a different one
 
         if (this.provider.equals(provider))
-            locationSetup(new Criteria());
+            locationSetup(crit);
 
         Log.i("Location stuff", String.format("Provider set to %s", this.provider));
     }
@@ -273,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
     @Override
     protected void onResume(){
         super.onResume();
-        locationSetup(new Criteria());
+        locationSetup(crit);
         Log.i("Location stuff", String.format("Provider set to %s", provider));
     }
 

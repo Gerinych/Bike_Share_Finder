@@ -225,14 +225,21 @@ public class MainActivity extends AppCompatActivity implements DialogResult, Loc
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {}
     @Override
-    public void onProviderEnabled(String provider) {}
+    public void onProviderEnabled(String provider) {
+        if (lm.getBestProvider(crit, true).equals(provider)) {
+            this.provider = provider;
+            lm.removeUpdates(this);
+            locationSetup(crit);
+        }
+    }
     @Override
     public void onProviderDisabled(String provider) {
         // if current provider gets disabled, use a different one
 
-        if (this.provider.equals(provider))
+        if (this.provider.equals(provider)) {
+            lm.removeUpdates(this);
             locationSetup(crit);
-
+        }
         Log.i("Location stuff", String.format("Provider set to %s", this.provider));
     }
 
